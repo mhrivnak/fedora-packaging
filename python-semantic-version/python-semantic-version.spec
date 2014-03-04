@@ -68,6 +68,10 @@ cp -a . %{py3dir}
 %{__python2} setup.py test
 
 %if 0%{?with_python3}
+# setup.py iterates over a file __init__.py in get_version(), and in that file,
+# the author's name causes a UnicodeDecodeError if the locale's encoding is not
+# set to UTF-8
+export LC_ALL=en_US.UTF-8
 pushd %{py3dir}
 %{__python3} setup.py test
 popd
@@ -77,7 +81,12 @@ popd
 %{__python2} setup.py build
 
 %if 0%{?with_python3}
+# setup.py iterates over a file __init__.py in get_version(), and in that file,
+# the author's name causes a UnicodeDecodeError if the locale's encoding is not
+# set to UTF-8
+export LC_ALL=en_US.UTF-8
 pushd %{py3dir}
+python3 -c 'import locale; print(locale.getpreferredencoding(False))'
 %{__python3} setup.py build
 popd
 %endif # with_python3
@@ -87,6 +96,10 @@ popd
 
 %if 0%{?with_python3}
 pushd %{py3dir}
+# setup.py iterates over a file __init__.py in get_version(), and in that file,
+# the author's name causes a UnicodeDecodeError if the locale's encoding is not
+# set to UTF-8
+export LC_ALL=en_US.UTF-8
 %{__python3} setup.py install --skip-build --root %{buildroot}
 popd
 %endif # with_python3
