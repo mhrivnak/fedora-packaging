@@ -33,10 +33,8 @@ BuildRequires: python3-sphinx
 
 # required by unit tests
 BuildRequires: python3-django
-# django-south is not currently packaged for python3 in F19
-%if 0%{?fedora} >= 20
-BuildRequires: python3-django-south
-%endif # if fedora >= 20
+# python3-django-south is not currently packaged for F19, and it breaks the unit
+# tests in F20
 %endif # if with_python3
 
 %description
