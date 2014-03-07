@@ -22,16 +22,23 @@ BuildRequires: python2-devel
 BuildRequires: python-setuptools
 BuildRequires: python-sphinx
 
-# required by unit tests
+# optional for unit tests
+# not available in rhel6/epel
+%if 0%{?fedora}
 BuildRequires: python-django
 BuildRequires: python-django-south
+%endif
+
+%if 0%{?rhel}
+BuildRequires: python-unittest2
+%endif
 
 %if 0%{?with_python3}
 BuildRequires: python3-devel
 BuildRequires: python3-setuptools
 BuildRequires: python3-sphinx
 
-# required by unit tests
+# optional for unit tests
 BuildRequires: python3-django
 # python3-django-south is not currently packaged for F19, and it breaks the unit
 # tests in F20
@@ -115,7 +122,7 @@ rm -f htmldocs/.buildinfo
 %files
 %{python2_sitelib}/semantic_version
 %{python2_sitelib}/semantic_version*.egg-info
-%doc ChangeLog htmldocs LICENSE README.rst htmldocs
+%doc ChangeLog htmldocs LICENSE README.rst
 
 %if 0%{?with_python3}
 %files -n python3-semantic-version
