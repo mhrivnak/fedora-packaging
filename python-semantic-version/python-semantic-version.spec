@@ -129,6 +129,7 @@ rm -f htmldocs/.buildinfo
 
 %if 0%{?with_python3}
 %files -n python3-semantic-version
+%defattr(-,root,root,-)
 %{python3_sitelib}/*
 %doc ChangeLog htmldocs LICENSE README.rst
 %endif # with_python3
