@@ -1,7 +1,5 @@
 %if 0%{?fedora} > 12
 %global with_python3 1
-%else
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -13,8 +11,7 @@
 Name: python-semantic-version
 Version: 2.2.2
 Release: 1%{?dist}
-Summary: A library implementing the 'SemVer' scheme.
-
+Summary: A library implementing the 'SemVer' scheme
 License: BSD
 URL: https://github.com/rbarrois/python-semanticversion
 Source0: https://github.com/rbarrois/python-semanticversion/archive/v2.2.2.tar.gz
@@ -25,7 +22,7 @@ BuildRequires: python2-devel
 BuildRequires: python-setuptools
 BuildRequires: python-sphinx
 
-# tests
+# required by unit tests
 BuildRequires: python-django
 BuildRequires: python-django-south
 
@@ -34,9 +31,12 @@ BuildRequires: python3-devel
 BuildRequires: python3-setuptools
 BuildRequires: python3-sphinx
 
-# tests
+# required by unit tests
 BuildRequires: python3-django
-# django-south is not currently packaged for python3
+# django-south is not currently packaged for python3 in F19
+%if 0%{?fedora} >= 20
+BuildRequires: python3-django-south
+%endif # if fedora >= 20
 %endif # if with_python3
 
 %description
@@ -57,12 +57,14 @@ SemVer scheme.
 This subpackage is for python3
 %endif # with_python3
 
+
 %prep
 %setup -q -n python-semanticversion-%{version}
 
 %if 0%{?with_python3}
 cp -a . %{py3dir}
 %endif
+
 
 %check
 %{__python2} setup.py test
@@ -77,6 +79,7 @@ pushd %{py3dir}
 popd
 %endif # with_python3
 
+
 %build
 %{__python2} setup.py build
 
@@ -90,6 +93,7 @@ python3 -c 'import locale; print(locale.getpreferredencoding(False))'
 %{__python3} setup.py build
 popd
 %endif # with_python3
+
 
 %install
 %{__python2} setup.py install --skip-build --root %{buildroot}
@@ -109,17 +113,19 @@ popd && mv docs/_build/html htmldocs
 rm -rf docs
 rm -f htmldocs/.buildinfo
 
+
 %files
 %{python2_sitelib}/semantic_version
 %{python2_sitelib}/semantic_version*.egg-info
-%defattr(-,root,root)
 %doc ChangeLog htmldocs LICENSE README.rst htmldocs
 
 %if 0%{?with_python3}
 %files -n python3-semantic-version
-%doc ChangeLog htmldocs LICENSE README.rst
 %{python3_sitelib}/*
+%doc ChangeLog htmldocs LICENSE README.rst
 %endif # with_python3
 
 
 %changelog
+* Mon Mar 10 2014 Michael Hrivnak <mhrivnak@redhat.com> - 2.2.2-1
+- initial packaging
