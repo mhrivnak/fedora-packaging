@@ -1,4 +1,4 @@
-%if 0%{?fedora} > 12
+%if 0%{?fedora} > 12 || 0%{?rhel} > 6
 %global with_python3 1
 %endif
 
@@ -12,6 +12,7 @@ Name: python-semantic-version
 Version: 2.2.2
 Release: 1%{?dist}
 Summary: A library implementing the 'SemVer' scheme
+
 License: BSD
 URL: https://github.com/rbarrois/python-semanticversion
 Source0: https://github.com/rbarrois/python-semanticversion/archive/v2.2.2.tar.gz
@@ -48,6 +49,7 @@ BuildRequires: python3-django
 This small python library provides a few tools to handle SemVer
 (http://semver.org) in Python. It follows strictly the 2.0.0-rc1 version of the
 SemVer scheme.
+
 
 %if 0%{?with_python3}
 %package -n python3-semantic-version
@@ -120,6 +122,7 @@ rm -f htmldocs/.buildinfo
 
 
 %files
+%defattr(-,root,root,-)
 %{python2_sitelib}/semantic_version
 %{python2_sitelib}/semantic_version*.egg-info
 %doc ChangeLog htmldocs LICENSE README.rst
