@@ -30,7 +30,7 @@ BuildRequires: python-django
 BuildRequires: python-django-south
 %endif
 
-%if 0%{?rhel}
+%if 0%{?rhel} <= 6
 BuildRequires: python-unittest2
 %endif
 
