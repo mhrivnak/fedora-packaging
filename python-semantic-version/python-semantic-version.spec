@@ -9,13 +9,13 @@
 %endif
 
 Name: python-semantic-version
-Version: 2.2.2
+Version: 2.3.0
 Release: 1%{?dist}
 Summary: A library implementing the 'SemVer' scheme
 
 License: BSD
 URL: https://github.com/rbarrois/python-semanticversion
-Source0: https://github.com/rbarrois/python-semanticversion/archive/v2.2.2.tar.gz
+Source0: https://github.com/rbarrois/python-semanticversion/archive/v2.3.0.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch: noarch
 
@@ -41,13 +41,15 @@ BuildRequires: python3-sphinx
 
 # optional for unit tests
 BuildRequires: python3-django
-# python3-django-south is not currently packaged for F19, and it breaks the unit
-# tests in F20
+# python3-django-south is not currently packaged for F19
+%if 0%{?fedora} >= 20
+BuildRequires: python3-django-south
+%endif
 %endif # if with_python3
 
 %description
 This small python library provides a few tools to handle SemVer
-(http://semver.org) in Python. It follows strictly the 2.0.0-rc1 version of the
+(http://semver.org) in Python. It follows strictly the 2.0.0 version of the
 SemVer scheme.
 
 
@@ -57,7 +59,7 @@ Summary: A library implementing the 'SemVer' scheme.
 
 %description -n python3-semantic-version
 This small python library provides a few tools to handle SemVer
-(http://semver.org) in Python. It follows strictly the 2.0.0-rc1 version of the
+(http://semver.org) in Python. It follows strictly the 2.0.0 version of the
 SemVer scheme.
 
 This subpackage is for python3
@@ -76,7 +78,7 @@ cp -a . %{py3dir}
 %{__python2} setup.py test
 
 %if 0%{?with_python3}
-# setup.py iterates over a file __init__.py in get_version(), and in that file,
+# setup.py iterates over a file "__init__.py" in get_version(), and in that file,
 # the author's name causes a UnicodeDecodeError if the locale's encoding is not
 # set to UTF-8
 export LC_ALL=en_US.UTF-8
@@ -90,7 +92,7 @@ popd
 %{__python2} setup.py build
 
 %if 0%{?with_python3}
-# setup.py iterates over a file __init__.py in get_version(), and in that file,
+# setup.py iterates over a file "__init__.py" in get_version(), and in that file,
 # the author's name causes a UnicodeDecodeError if the locale's encoding is not
 # set to UTF-8
 export LC_ALL=en_US.UTF-8
@@ -106,7 +108,7 @@ popd
 
 %if 0%{?with_python3}
 pushd %{py3dir}
-# setup.py iterates over a file __init__.py in get_version(), and in that file,
+# setup.py iterates over a file "__init__.py" in get_version(), and in that file,
 # the author's name causes a UnicodeDecodeError if the locale's encoding is not
 # set to UTF-8
 export LC_ALL=en_US.UTF-8
