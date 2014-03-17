@@ -137,5 +137,5 @@ rm -f htmldocs/.buildinfo
 
 
 %changelog
-* Mon Mar 10 2014 Michael Hrivnak <mhrivnak@redhat.com> - 2.2.2-1
+* Sun Mar 16 2014 Michael Hrivnak <mhrivnak@redhat.com> - 2.3.0-1
 - initial packaging
