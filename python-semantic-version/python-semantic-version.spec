@@ -55,7 +55,7 @@ SemVer scheme.
 
 %if 0%{?with_python3}
 %package -n python3-semantic-version
-Summary: A library implementing the 'SemVer' scheme.
+Summary: A library implementing the 'SemVer' scheme
 
 %description -n python3-semantic-version
 This small python library provides a few tools to handle SemVer
