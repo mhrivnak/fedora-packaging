@@ -62,7 +62,7 @@ This small python library provides a few tools to handle SemVer
 (http://semver.org) in Python. It follows strictly the 2.0.0 version of the
 SemVer scheme.
 
-This subpackage is for python3
+This sub-package is for python3
 %endif # with_python3
 
 
