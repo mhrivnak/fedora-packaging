@@ -9,13 +9,13 @@
 %endif
 
 Name: python-semantic-version
-Version: 2.3.0
+Version: 2.4.2
 Release: 1%{?dist}
 Summary: A library implementing the 'SemVer' scheme
 
 License: BSD
 URL: https://github.com/rbarrois/python-semanticversion
-Source0: https://github.com/rbarrois/python-semanticversion/archive/v2.3.0.tar.gz
+Source0: https://github.com/rbarrois/python-semanticversion/archive/v2.4.2.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch: noarch
 
@@ -25,9 +25,8 @@ BuildRequires: python-sphinx
 
 # optional for unit tests
 # not available in rhel6/epel
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?rhel} >= 7
 BuildRequires: python-django
-BuildRequires: python-django-south
 %endif
 
 %if 0%{?rhel} <= 6
@@ -41,10 +40,6 @@ BuildRequires: python3-sphinx
 
 # optional for unit tests
 BuildRequires: python3-django
-# python3-django-south is not currently packaged for F19
-%if 0%{?fedora} >= 20
-BuildRequires: python3-django-south
-%endif
 %endif # if with_python3
 
 %description
@@ -97,7 +92,6 @@ popd
 # set to UTF-8
 export LC_ALL=en_US.UTF-8
 pushd %{py3dir}
-python3 -c 'import locale; print(locale.getpreferredencoding(False))'
 %{__python3} setup.py build
 popd
 %endif # with_python3
@@ -126,16 +120,22 @@ rm -f htmldocs/.buildinfo
 %defattr(-,root,root,-)
 %{python2_sitelib}/semantic_version
 %{python2_sitelib}/semantic_version*.egg-info
-%doc ChangeLog htmldocs LICENSE README.rst
+%doc ChangeLog htmldocs README.rst
+# following line needed for el6
+%{!?_licensedir:%global license %%doc}
+%license LICENSE
 
 %if 0%{?with_python3}
 %files -n python3-semantic-version
 %defattr(-,root,root,-)
 %{python3_sitelib}/*
-%doc ChangeLog htmldocs LICENSE README.rst
+%doc ChangeLog htmldocs README.rst
+# following line needed for el6
+%{!?_licensedir:%global license %%doc}
+%license LICENSE
 %endif # with_python3
 
 
 %changelog
-* Sun Mar 16 2014 Michael Hrivnak <mhrivnak@redhat.com> - 2.3.0-1
+* Thu Jul 2 2015 Michael Hrivnak <mhrivnak@redhat.com> - 2.4.2-1
 - initial packaging

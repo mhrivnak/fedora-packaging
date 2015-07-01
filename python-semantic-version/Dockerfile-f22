@@ -1,0 +1,14 @@
+FROM fedora:22
+MAINTAINER Michael Hrivnak <mhrivnak@redhat.com>
+
+ADD python-semantic-version.spec /root/
+
+WORKDIR /root/
+
+RUN dnf upgrade -y --setopt deltarpm=0 && dnf -y install rpm-build make dnf-plugins-core && dnf builddep -y python-semantic-version.spec && dnf clean all
+
+RUN mkdir -p /root/rpmbuild/SOURCES
+
+RUN curl -L https://github.com/rbarrois/python-semanticversion/archive/v2.4.2.tar.gz > /root/rpmbuild/SOURCES/v2.4.2.tar.gz
+
+CMD rpmbuild -bb python-semantic-version.spec
